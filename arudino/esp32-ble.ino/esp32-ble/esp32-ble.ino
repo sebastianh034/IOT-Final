@@ -52,13 +52,13 @@ class MyCharacteristicCallbacks: public BLECharacteristicCallbacks {
     printToScreen("Received:\n" + message);
     //if it recived the message "spray" from the app it will turn on the light and the relay
     if (message == "spray") {
-      digitalWrite(RELAY, LOW);
+      digitalWrite(RELAY, HIGH);
       digitalWrite(LIGHT, HIGH);  // turn on the light 
       printToScreen("Spraying for 5 seconds");
 
       delay(5000); // Spray for 5 seconds
 
-      digitalWrite(RELAY, HIGH);
+      digitalWrite(RELAY, LOW);
       digitalWrite(LIGHT, LOW);  // turn off the LIGHT 
       printToScreen("Spraying complete");
     }
@@ -85,7 +85,7 @@ void setup() {
 
   // Turn off all lights initially
   digitalWrite(LIGHT, LOW); 
-  digitalWrite(RELAY, HIGH); //set as high == low
+  digitalWrite(RELAY, LOW); //set as high == low
 
   printToScreen("Starting BLE!");
 
@@ -121,7 +121,7 @@ void loop() {
 
   // If temperature is above 140F, turn on the relay only if the relay is not active
   if (objectTemp > 140.0 && !relayActive && digitalRead(BUTTON) == HIGH) {
-    digitalWrite(RELAY, LOW); //low == on
+    digitalWrite(RELAY, HIGH); //low == on
     digitalWrite(LIGHT, HIGH);
     printToScreen("Temperature above 140°F. Spraying...");
     delay(5000);
@@ -132,7 +132,7 @@ void loop() {
   // Manage the relay for 5 seconds
   if (relayActive && (millis() - relayStartTime >= 5000)) {
     digitalWrite(LIGHT, LOW);  // Turn off the light
-    digitalWrite(RELAY, HIGH); // relay off
+    digitalWrite(RELAY, LOW); // relay off
     printToScreen("Spraying complete.");
     relayActive = false;       // Reset the relay active flag
   }
@@ -145,14 +145,14 @@ void loop() {
   // Check if the button is pressed
   if (digitalRead(BUTTON) == LOW) {
     digitalWrite(LIGHT, HIGH);  // turn on the light
-    digitalWrite(RELAY, LOW); //turn on relay
+    digitalWrite(RELAY, HIGH); //turn on relay
     printToScreen("Spraying...");
 
     // Wait until the button is released
     while (digitalRead(BUTTON) == LOW) {
       delay(10);
     }
-    digitalWrite(RELAY, HIGH);
+    digitalWrite(RELAY, LOW);
     digitalWrite(LIGHT, LOW);  // turn off the light
 
     printToScreen("Spraying stopped.");
@@ -160,7 +160,7 @@ void loop() {
 
   else {
     digitalWrite(LIGHT, LOW); // check the light is off if the button is not pressed
-    digitalWrite(RELAY, HIGH);
+    digitalWrite(RELAY, LOW);
   }
 
   delay(10);

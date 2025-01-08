@@ -40,17 +40,20 @@ function sendMessage(message) {
 let timeData = [];  // Timestamps
 let tempData = [];  // Temperature readings
 
-// Initialize Empty Graph
 Plotly.newPlot('temperatureGraph', [{
-    x: timeData,
-    y: tempData,
-    mode: 'lines+markers',
-    type: 'scatter',
-    marker: { color: 'red' }
+  x: timeData,
+  y: tempData,
+  mode: 'lines+markers',
+  type: 'scatter',
+  marker: { color: 'red' }
 }], {
-    title: 'Real-Time Temperature',
-    xaxis: { title: 'Time' },
-    yaxis: { title: 'Temperature (°C)' }
+  title: 'Real-Time Temperature',
+  xaxis: { title: 'Time' },
+  yaxis: { title: 'Temperature (°C)' }
+}, {
+  displayModeBar: false,     
+  responsive: true,           
+  staticPlot: false,          
 });
 
 function appendToGraph() {
